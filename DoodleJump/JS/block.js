@@ -5,23 +5,25 @@ class Block {
         this.height = 40;
 
         this.x = 0;
-        this.y = 0;
+        this.y = 65;
 
         this.xVector = 1;
-        this.xVelocity = 5
+        this.xVelocity = 10
+
+        this.yVector = 1;
+        this.yVelocity = 5;
 
 
         this.colour = "red"
 
         this.gravity = 0.2;
-        this.gravitySpeed = 9;
+        this.gravitySpeed = 2;
 
         this.gravityVector = 1;
 
         this.bottom = c.canvasHeight - this.height;
         this.top = 0;
 
-        this.once = false;
 
         this.score = 0;
     }
@@ -33,43 +35,56 @@ class Block {
 
 
 
-    moveBlock() {
+    moveBlock(key) {
 
-        if (hitPaddle(this, p)) {
-            this.gravityVector = -1;
-            this.gravitySpeed = -9;
-            this.y = this.bottom-p.height - p.offSet;
-        } else if (hitTop(this.y)){
-            this.gravityVector = 1;
-            this.gravitySpeed = 9;
-            this.y = 0;
-        } else if (hitBottom(this.y, this.height)){
-            this.score++
-            this.gravityVector = -1;
-            this.gravitySpeed = -9;
-            this.y = this.bottom;
-            document.getElementById('score').innerHTML = this.score;
+        const RIGHT_KEY = 39;
+        const LEFT_KEY = 37;
+
+        if (key === RIGHT_KEY || key === LEFT_KEY) {
+            if (key === RIGHT_KEY) {
+                this.xVector = 1;
+            } else if (key === LEFT_KEY) {
+                this.xVector = -1;
+            }
+
+            this.x += this.xVelocity * this.xVector;
+
         }
 
-        if (hitRight(this.x, this.width)){
-            this.xVector = -1;
-        } else if (hitLeft(this.x)){
-            this.xVector = 1;
-        }
-
-        console.log(Math.random()*10);
-
-
-        this.gravitySpeed += this.gravity * this.gravityVector;
-        this.y += this.gravitySpeed;
-        this.x += this.xVelocity * this.xVector;
-
+        this.checkHitPlank();
+        this.verticalDir()
 
         this.drawBlock(this.x, this.y);
 
     }
 
+    verticalDir(){
+        if (this.y <= 0){
+            this.yVector = 1;
+            this.gravitySpeed = 9;
+            this.y = 0;
+        } else if (this.y >= this.bottom){
+            document.getElementById("over").innerHTML = "GAME OVER";
+            gameOver = true;
+        }
+        this.gravitySpeed += this.gravity * this.gravityVector;
+        this.y += this.gravitySpeed * this.yVector;
+    }
 
+
+    checkHitPlank(){
+        for (let i = 0; i < plankList.length; i++) {
+            let currPlank = plankList[i];
+    
+            if (currPlank.x < b.x + b.width &&
+                currPlank.x + currPlank.width > b.x &&
+                currPlank.y < b.y + b.height &&
+                currPlank.y + currPlank.height > b.y) {
+                    b.yVector = -1;
+             }
+    
+        }
+    }
 
 }
 
