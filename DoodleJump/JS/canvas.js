@@ -4,8 +4,7 @@ class Canvas{
         this.ctx = this.canvas.getContext("2d")
         this.canvasWidth = this.canvas.width;
         this.canvasHeight = this.canvas.height;
-        this.background = 'black';
-        this.border = 'yellow'
+        this.background = 'grey';
     }
 
     drawCanvas(){

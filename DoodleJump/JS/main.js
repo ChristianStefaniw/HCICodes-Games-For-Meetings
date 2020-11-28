@@ -7,16 +7,17 @@ let gameOver = false;
 
 
 c.drawCanvas();
-b.drawBlock(b.x, b.y);
+p.drawPlayer();
 
-document.addEventListener("keydown", moveBlock);
+document.addEventListener("keydown", movePlayer);
 
 genPlanks();
 
+
 main();
 
-function moveBlock() {
-    b.moveBlock(event.keyCode)
+function movePlayer() {
+    p.movePlayer(event.keyCode)
 }
 
 function genPlanks() {
@@ -24,7 +25,11 @@ function genPlanks() {
         x = Math.floor(Math.random() * (c.canvasWidth - plankWidth))
         y = Math.floor(Math.random() * (c.canvasHeight - plankHeight))
 
-        const plank = new Plank(x, y)
+        let plankNum = 'plank'+i;
+
+        let img = document.getElementById(plankNum);
+
+        const plank = new Plank(x, y, img)
 
         plankList.push(plank);
     }
@@ -41,9 +46,10 @@ function drawPlanks() {
 function main() {
     !gameOver ? setTimeout(function onTick() {
         c.clearCanvas();
-        b.moveBlock();
+        p.checkHitPlank();
+        p.verticalDir();
+        p.drawPlayer();
         drawPlanks();
-        //p.drawPaddle();
         main();
     }, 50) : null;
 }

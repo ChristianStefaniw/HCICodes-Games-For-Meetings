@@ -1,17 +1,17 @@
 class Plank {
-    constructor(x, y) {
+    constructor(x, y, img) {
         this.height = 20;
-        this.width = 100;
+        this.width = 150;
 
         this.x = x;
         this.y = y;
 
-        this.colour = "purple"
+
+        this.img = img;
     }
 
     drawPlank() {
-        c.ctx.fillStyle = this.colour;
-        c.ctx.fillRect(this.x, this.y, this.width, this.height);
+        c.ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
     }
 
 }
