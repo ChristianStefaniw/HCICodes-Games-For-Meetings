@@ -46,7 +46,7 @@ class Player {
                 this.loadedImg = this.imgLeft;
             }
 
-            this.x += this.xVelocity();
+            this.x += this.newXPos();
 
         }
 
@@ -69,7 +69,7 @@ class Player {
 
         
         this.gravitySpeed += this.gravity * this.yDir;
-        this.y += this.yVelocity();
+        this.y += this.newYPos();
     }
 
     collision(obj1, obj2) {
@@ -94,11 +94,11 @@ class Player {
         }
     }
 
-    xVelocity(){
+    newXPos(){
         return this.xSpeed * this.xDir;
     }
 
-    yVelocity(){
+    newYPos(){
         return this.gravitySpeed * this.yDir;
     }
 
