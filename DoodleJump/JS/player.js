@@ -7,16 +7,14 @@ class Player {
         this.x = 0;
         this.y = 65;
 
-        this.xVector = 1;
-        this.xVelocity = 10
+        this.xDir = 1;
+        this.xSpeed = 10
 
-        this.yVector = 1;
+        this.yDir = 1;
 
 
         this.gravity = 0.2;
         this.gravitySpeed = 2;
-
-        this.gravityVector = 1;
 
         this.bottom = c.canvasHeight - this.height;
 
@@ -41,14 +39,14 @@ class Player {
 
         if (key === RIGHT_KEY || key === LEFT_KEY) {
             if (key === RIGHT_KEY) {
-                this.xVector = 1;
+                this.xDir = 1;
                 this.loadedImg = this.imgRight;
             } else if (key === LEFT_KEY) {
-                this.xVector = -1;
+                this.xDir = -1;
                 this.loadedImg = this.imgLeft;
             }
 
-            this.x += this.xVelocity * this.xVector;
+            this.x += this.xVelocity();
 
         }
 
@@ -62,15 +60,16 @@ class Player {
 
     verticalDir() {
         if (this.gravitySpeed <= 0) {
-            this.yVector = 1;
-            this.gravityVector = 1;
+            this.yDir = 1;
             this.gravitySpeed = 2;
         } else if (hitBottom(this.y, this.height)) {
             document.getElementById("over").innerHTML = "GAME OVER";
             gameOver = true;
         }
-        this.gravitySpeed += this.gravity * this.gravityVector;
-        this.y += this.gravitySpeed * this.yVector;
+
+        
+        this.gravitySpeed += this.gravity * this.yDir;
+        this.y += this.yVelocity();
     }
 
     collision(obj1, obj2) {
@@ -89,11 +88,18 @@ class Player {
             let currPlank = plankList[i];
 
             if (this.collision(this, currPlank)) {
-                this.yVector = -1;
-                this.gravityVector = -1;
+                this.yDir = -1;
             }
 
         }
+    }
+
+    xVelocity(){
+        return this.xSpeed * this.xDir;
+    }
+
+    yVelocity(){
+        return this.gravitySpeed * this.yDir;
     }
 
 }
