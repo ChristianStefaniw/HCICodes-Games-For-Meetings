@@ -4,6 +4,8 @@ class Player {
         this.width = 70;
         this.height = 70;
 
+        this.hitBoxX = 40;
+
         this.x = 0;
         this.y = 65;
 
@@ -46,7 +48,7 @@ class Player {
                 this.loadedImg = this.imgLeft;
             }
 
-            this.x += this.newXPos();
+            this.x += this.xSpeed * this.xDir;
 
         }
 
@@ -69,12 +71,12 @@ class Player {
 
         
         this.gravitySpeed += this.gravity * this.yDir;
-        this.y += this.newYPos();
+        this.y += this.gravitySpeed * this.yDir;
     }
 
     collision(obj1, obj2) {
         if (obj1.x < obj2.x + obj2.width &&
-            obj1.x + obj1.width > obj2.x &&
+            obj1.x + obj1.hitBoxX > obj2.x &&
             obj1.y < obj2.y + obj2.height &&
             obj1.y + obj1.height > obj2.y) {
             return true;
@@ -92,14 +94,6 @@ class Player {
             }
 
         }
-    }
-
-    newXPos(){
-        return this.xSpeed * this.xDir;
-    }
-
-    newYPos(){
-        return this.gravitySpeed * this.yDir;
     }
 
 }
