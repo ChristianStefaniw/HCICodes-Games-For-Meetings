@@ -4,9 +4,6 @@ class Engine {
         this.plankWidth = 150;
         this.plankHeight = 20;
         this.canvas = new Canvas();
-        this.canvas.loadCanvas();
-        this.canvas.drawCanvas();
-        this.player = new Player();
     }
 
 
@@ -46,9 +43,10 @@ class Engine {
 
 
     start() {
+    
+        this.player = new Player();
 
         document.addEventListener("keydown", e => {
-            console.log(e.keyCode)
             this.player.movePlayer(e.keyCode)
         });
 
@@ -69,6 +67,8 @@ class Engine {
 
 function startGame() {
     let gameEngine = new Engine();
+    gameEngine.canvas.loadCanvas()
+    gameEngine.canvas.drawCanvas();
     gameEngine.genPlanks(5);
     gameEngine.start();
 }

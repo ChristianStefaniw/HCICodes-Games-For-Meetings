@@ -5,7 +5,7 @@ class Player extends Canvas{
         this.width = 70;
         this.height = 70;
 
-        this.x = 0;
+        this.x = this.canvasWidth/2;
         this.y = 65;
 
         this.xDir = 1;
@@ -14,8 +14,8 @@ class Player extends Canvas{
         this.yDir = 1;
 
 
-        this.gravity = 0.5;
-        this.gravitySpeed = 5;
+        this.gravity = 1;
+        this.gravitySpeed = 9;
 
         this.bottom = this.canvasHeight - this.height;
 
