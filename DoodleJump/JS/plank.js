@@ -1,5 +1,6 @@
-class Plank {
+class Plank extends Canvas{
     constructor(x, y, img) {
+        super();
         this.height = 20;
         this.width = 150;
 
@@ -11,7 +12,11 @@ class Plank {
     }
 
     drawPlank() {
-        c.ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
+        this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
+    }
+
+    moveDown() {
+        this.y += 200;
     }
 
 }

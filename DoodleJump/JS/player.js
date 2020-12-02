@@ -1,10 +1,9 @@
-class Player {
+class Player extends Canvas{
     constructor() {
+        super();
 
         this.width = 70;
         this.height = 70;
-
-        this.hitBoxX = 40;
 
         this.x = 0;
         this.y = 65;
@@ -15,19 +14,29 @@ class Player {
         this.yDir = 1;
 
 
-        this.gravity = 0.2;
-        this.gravitySpeed = 2;
+        this.gravity = 0.5;
+        this.gravitySpeed = 5;
 
-        this.bottom = c.canvasHeight - this.height;
+        this.bottom = this.canvasHeight - this.height;
 
 
         this.imgRight = document.getElementById("playerRight");
         this.imgLeft = document.getElementById("playerLeft");
         this.loadedImg = this.imgRight;
+
+        this.score = 0;
+
+        this.boundChecks = new BoundCheck();
+
+        this.gameOver = false;
+        
     }
 
-    drawPlayer() {
-        c.ctx.drawImage(this.loadedImg, this.x, this.y, this.width, this.height)
+    drawPlayer(plankList) {
+        this.verticalDir();
+        this.checkHitPlank(plankList);
+        this.drawScore();
+        this.ctx.drawImage(this.loadedImg, this.x, this.y, this.width, this.height);
     }
 
 
@@ -51,10 +60,9 @@ class Player {
             this.x += this.xSpeed * this.xDir;
 
         }
-
-        if (hitRight(this.x, this.width)){
-            this.x = c.canvasWidth-this.width;
-        } else if (hitLeft(this.x)){
+        if (this.boundChecks.hitRight(this.x, this.width)){
+            this.x = this.canvasWidth-this.width;
+        } else if (this.boundChecks.hitLeft(this.x)){
             this.x = 0;
         }
 
@@ -64,9 +72,8 @@ class Player {
         if (this.gravitySpeed <= 0) {
             this.yDir = 1;
             this.gravitySpeed = 2;
-        } else if (hitBottom(this.y, this.height)) {
-            document.getElementById("over").innerHTML = "GAME OVER";
-            gameOver = true;
+        } else if (this.boundChecks.hitBottom(this.y, this.height)) {
+            this.gameOver = true;
         }
 
         
@@ -76,27 +83,37 @@ class Player {
 
     collision(obj1, obj2) {
         if (obj1.x < obj2.x + obj2.width &&
-            obj1.x + obj1.hitBoxX > obj2.x &&
+            obj1.x + obj1.width > obj2.x &&
             obj1.y < obj2.y + obj2.height &&
-            obj1.y + obj1.height > obj2.y) {
+            obj1.y + obj1.height > obj2.y && this.yDir == 1) {
             return true;
         }
         return false;
     }
+    
+
+    movePlanks(plankList){
+        plankList.forEach(plank => {
+            plank.moveDown();
+        });
+    }
 
 
-    checkHitPlank() {
-        for (let i = 0; i < plankList.length; i++) {
-            let currPlank = plankList[i];
-
-            if (this.collision(this, currPlank)) {
+    checkHitPlank(plankList) {
+        plankList.forEach(plank => {
+            if (this.collision(this, plank)) {
+                this.score++;
+                
                 this.yDir = -1;
+                this.movePlanks(plankList);
             }
+        });
+    }
 
-        }
+    drawScore(){
+        this.ctx.font = "30px Arial";
+        this.ctx.fillStyle = "white"
+        this.ctx.fillText(`${this.score}`, this.canvasWidth/2, 50)
     }
 
 }
-
-
-const p = new Player()
