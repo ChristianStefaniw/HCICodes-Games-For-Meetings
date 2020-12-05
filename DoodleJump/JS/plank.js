@@ -13,8 +13,9 @@ class Plank extends Canvas {
 
 
     drawPlank() {
-        this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
-
+        this.img.onload == null
+            ? this.img.onload = () => this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
+            : this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
     moveDown() {

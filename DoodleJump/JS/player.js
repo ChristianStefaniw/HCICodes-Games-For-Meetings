@@ -32,19 +32,26 @@ class Player extends Canvas {
 
     }
     drawPlayer(dir, plankList) {
-        this.imgLeft == undefined ? this.imgLeft = this.playerImage("Left") : null;
-        this.imgRight == undefined ? this.imgRight = this.playerImage("Right") : null;
-
-        let img;
-
-        dir == "Left" ? img = this.imgLeft : img = this.imgRight;
-
         this.verticalDir();
         this.checkHitPlank(plankList);
         this.drawScore();
 
-        this.ctx.drawImage(img, this.x, this.y, this.width, this.height);
+
+        //if images are not loaded, load them
+        if (this.imgLeft == undefined && dir == 'Left'){
+            this.imgLeft = this.playerImage("Left");
+            this.imgLeft.onload = () => this.ctx.drawImage(this.imgLeft, this.x, this.y, this.width, this.height);
+
+        } else if (this.imgRight == undefined && dir == 'Right'){
+            this.imgRight = this.playerImage("Right");
+            this.imgRight.onload = () => this.ctx.drawImage(this.imgRight, this.x, this.y, this.width, this.height);
+            
+        } else {
+            let img = dir == "Left" ? this.imgLeft : this.imgRight;
+            this.ctx.drawImage(img, this.x, this.y, this.width, this.height);
+        }
     }
+
 
 
     playerImage(dir) {
