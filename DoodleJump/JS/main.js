@@ -7,9 +7,6 @@ class Engine {
     }
 
 
-
-    //Functions have their own this - arrow functions do not
-
     genPlanks(num) {
         let x;
         let y;
@@ -20,13 +17,22 @@ class Engine {
 
             let plankNum = `plank${i}`;
 
-            let img = document.getElementById(plankNum);
 
+            let img = this.plankImage(plankNum);
+            
             const plank = new Plank(x, y, img)
 
             this.plankList.push(plank);
         }
     }
+
+    plankImage(plankNum){
+        let img = new Image();
+        img.id = plankNum;
+        img.src = 'assets/plank.png';
+        return img;
+    }
+
 
     drawPlanks() {
         this.plankList.forEach(plank => {
@@ -40,10 +46,10 @@ class Engine {
     }
 
 
-
-
-    start() {
+    start = () => {
     
+        this.canvas.loadCanvas();
+        this.genPlanks(5);
         this.player = new Player();
 
         document.addEventListener("keydown", e => {
@@ -51,14 +57,13 @@ class Engine {
         });
 
         this.gameLoop();
-
     }
 
     gameLoop() {
         !this.player.gameOver ? setTimeout(() => {
             this.canvas.clearCanvas();
-            this.player.drawPlayer(this.plankList);
             this.drawPlanks();
+            this.player.drawPlayer(this.player.dir, this.plankList);
             this.gameLoop();
         }, 50) : null;
     }
@@ -67,9 +72,6 @@ class Engine {
 
 function startGame() {
     let gameEngine = new Engine();
-    gameEngine.canvas.loadCanvas()
-    gameEngine.canvas.drawCanvas();
-    gameEngine.genPlanks(5);
     gameEngine.start();
 }
 
