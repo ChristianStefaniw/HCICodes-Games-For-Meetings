@@ -1,4 +1,4 @@
-# HCI Codes Weekly Games
+# HCI Codes Games
 
 We will be coding through these games at HCI Codes weekly meetings.  
 All games are built from the ground up by me (Christian Stefaniw)  

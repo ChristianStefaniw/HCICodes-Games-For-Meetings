@@ -1,3 +1,4 @@
 # Doodle Jump Ish Game In JavaScript  
-
-![Preview](Preview.png "Game")
+<br>
+Demo:  
+https://hci-codes.netlify.app/projects/doodlejump/doodle-jump
