@@ -1,4 +1,3 @@
-
 class Engine {
     constructor() {
         this.plankList = [];

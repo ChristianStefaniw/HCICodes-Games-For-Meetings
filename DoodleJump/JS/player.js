@@ -17,11 +17,6 @@ class Player extends Canvas {
         this.gravity = 3;
         this.gravitySpeed = 2;
 
-        this.bottom = this.canvasHeight - this.height;
-
-
-        this.imgRight;
-        this.imgLeft;
         this.dir = "Right";
 
         this.score = 0;
@@ -38,16 +33,16 @@ class Player extends Canvas {
 
 
         //if images are not loaded, load them
-        if (this.imgLeft == undefined && dir == 'Left'){
+        if (this.imgLeft === undefined && dir === 'Left'){
             this.imgLeft = this.playerImage("Left");
             this.imgLeft.onload = () => this.ctx.drawImage(this.imgLeft, this.x, this.y, this.width, this.height);
 
-        } else if (this.imgRight == undefined && dir == 'Right'){
+        } else if (this.imgRight === undefined && dir === 'Right'){
             this.imgRight = this.playerImage("Right");
             this.imgRight.onload = () => this.ctx.drawImage(this.imgRight, this.x, this.y, this.width, this.height);
             
         } else {
-            let img = dir == "Left" ? this.imgLeft : this.imgRight;
+            let img = dir === "Left" ? this.imgLeft : this.imgRight;
             this.ctx.drawImage(img, this.x, this.y, this.width, this.height);
         }
     }
@@ -103,13 +98,11 @@ class Player extends Canvas {
     }
 
     collision(obj1, obj2) {
-        if (obj1.x < obj2.x + obj2.width &&
+        return obj1.x < obj2.x + obj2.width &&
             obj1.x + obj1.width > obj2.x &&
             obj1.y < obj2.y + obj2.height &&
-            obj1.y + obj1.height > obj2.y && this.yDir == 1) {
-            return true;
-        }
-        return false;
+            obj1.y + obj1.height > obj2.y && this.yDir === 1;
+
     }
 
 

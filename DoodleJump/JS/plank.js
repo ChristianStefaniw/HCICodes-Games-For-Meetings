@@ -7,8 +7,9 @@ class Plank extends Canvas {
         this.x = x;
         this.y = y;
 
-
         this.img = img;
+
+        this.movingDown = false;
     }
 
 
@@ -19,7 +20,19 @@ class Plank extends Canvas {
     }
 
     moveDown() {
-        this.y += 200;
+        if (!this.movingDown){
+            this.movingDown = true;
+            let newY = this.y + 200;
+            let interval = setInterval(() => {
+                this.y += 10;
+                if (this.y > newY || this.y > this.canvasHeight) {
+                    this.movingDown = false;
+                    clearInterval(interval)
+                }
+            }, 50)
+        }
+
     }
+
 
 }
