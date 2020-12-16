@@ -65,7 +65,26 @@ class Engine {
             this.drawPlanks();
             this.player.drawPlayer(this.player.dir, this.plankList);
             this.gameLoop();
-        }, 50) : null;
+        }, 50) : this.endGame();
+    }
+
+    endGame(){
+        let restartListener = (e) => {
+            if (e.keyCode === 32) {
+                this.restart(restartListener)
+            }
+        }
+        document.addEventListener("keydown", restartListener)
+        let msg = document.createElement("p");
+        msg.innerText = 'Press "SPACE" to restart';
+        document.body.append(msg)
+    }
+
+    restart(listener){
+        document.getElementsByTagName('p')[0].remove();
+        document.removeEventListener('keydown', listener)
+        delete this
+        startGame();
     }
 
 }
